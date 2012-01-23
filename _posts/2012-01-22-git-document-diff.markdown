@@ -20,6 +20,7 @@ This version solved the line-wrapping problem, but the result was ugly and diffi
 Version 3:
 
 `git config core.pager 'less -+$LESS -FRX'`
+
 `git diff --word-diff=color commit1 commit2`
 
 Bingo: lines wrap properly, changes are color-coded, and no junk text is introduced by incompatible tools. If you want to use the same pager settings across all of your git repositories, add the "--global" flag to the first command.
