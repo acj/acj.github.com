@@ -5,7 +5,7 @@ title: How to hack your garage door opener
 
 # How to Hack Your Garage Door Opener
 
-It’s well documented that the INSTEON [I/O Linc](http://www.smarthome.com/2412N/SmartLinc-INSTEON-Central-Controller/p.aspx) can be used to control a garage door and monitor whether the door is open. What was far less clear (to me, at least) was exactly how to connect the I/O Linc to the garage door opener. So, what follows is equal parts tutorial and lessons learned. The details will almost certainly vary, so be sure to consult the user manuals for your equipment.
+It’s well documented that the INSTEON [I/O Linc](http://www.smarthome.com/2450/IOLinc-INSTEON-Low-Voltage-Contact-Closure-Interface-1-In-1-Out-/p.aspx) can be used to control a garage door and monitor whether the door is open. It can even be accessed from a mobile device, making this a highly convenient home automation tool for less than $100. What was far less clear (to me, at least) was exactly how to connect the I/O Linc to the garage door opener. So, what follows is equal parts tutorial and lessons learned. The details will almost certainly vary, so be sure to consult the user manuals for your equipment.
 
 ## Equipment List
 
