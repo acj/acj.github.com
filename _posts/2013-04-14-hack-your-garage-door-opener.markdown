@@ -39,6 +39,7 @@ Next, we’ll connect the other end of the new wires to the I/O Linc. The instru
 **I/O Linc Wiring**
 
 We’re ready to connect the GDO to the I/O Linc. The other ends of our wires need to be connected to the Normally Open (N/O) and Common (COM) terminals on the I/O Linc:
+
 ![I/O Linc Wiring](http://content.screencast.com/users/a.jensen/folders/Snagit/media/861375c2-ba58-42e0-bcd3-293f8cc1e3e0/2013-04-13_23-02-53.png)
 
 The other two wires in the photo are for a magnetic garage door sensor. More on that in a moment.
