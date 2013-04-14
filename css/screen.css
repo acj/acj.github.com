@@ -6,10 +6,12 @@
 
 /* Global Reset */
 
+/*
 * {
   margin: 0;
   padding: 0;
 }
+*/
 
 html, body {
   height: 100%;
@@ -48,7 +50,7 @@ h1 h2 h3 h4 h5 h6 {
 }
 
 p {
-  margin: 4em 0;
+  margin: 1em 0;
 }
 
 a {
