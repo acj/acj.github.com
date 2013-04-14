@@ -54,7 +54,7 @@ When the I/O Linc receives a signal from its controller (a [SmartLinc 2412n](htt
 
 ## Monitoring the door state
 
-If you want to monitor whether the door is open or closed, then you’ll need a [magnetic door sensor](https://www.google.com/search?q=magnetic+door+sensor). These are inexpensive (< $5) and easy to install. Once the sensor is mounted, connect one wire to the I/O Linc’s *Sense* (S) terminal and the other to *Ground* (GND). When the door is closed, the green Sense light on the I/O Linc will be illuminated. When the door opens, the light will go out.
+If you want to monitor whether the door is open or closed, then you’ll need a [magnetic door sensor](https://www.google.com/search?q=magnetic+door+sensor). These are inexpensive (< $5) and easy to install. Once the sensor is mounted, connect one wire to the I/O Linc’s "Sense" (S) terminal and the other to "Ground" (GND). When the door is closed, the green Sense light on the I/O Linc will be illuminated. When the door opens, the light will go out.
 
 **N.B.**: If you plan to use the INSTEON mobile app, be advised that the “Status” for the I/O Linc is the status of the *relay*, not the door. When you open or close the door, the status will briefly change from Off to On and then back. If you want to monitor the open/closed state of the door, you will need a more sophisticated app. For Android devices, [MobiLinc](https://play.google.com/store/apps/details?id=com.mobileintegratedsolutions.mobilinc.lite) is a good option.
 
