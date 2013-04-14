@@ -16,11 +16,11 @@ It’s well documented that the INSTEON [I/O Linc](http://www.smarthome.com/2412
 - Magnetic sensor (optional)
 - Soldering iron, wire nut, or some other means of joining wires (optional)
 
+## Wiring the Garage Door Opener
+
 A garage door opener (GDO) typically has several terminals on its rear panel:
 
 ![Terminals on garage door opener rear panel](http://content.screencast.com/users/a.jensen/folders/Snagit/media/bb483a31-b2d9-4613-bc0a-05670568a2a7/2013-04-13_21-03-40.png)
-
-## Wiring the Garage Door Opener
 
 Some GDOs will have three terminals; others have four. For three-terminal openers, there are two “hot” terminals (one for devices that control the door, one for safety sensors) and a shared “common” terminal that’s normally in the center. A four-terminal GDO will normally have two terminals for controlling devices and two for sensors. The specific function of these terminals can vary from one GDO to the next, so be sure to track down the manual for your unit. (I hope you have better luck than I did.)
 
