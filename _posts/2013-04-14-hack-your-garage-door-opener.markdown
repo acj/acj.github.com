@@ -26,7 +26,7 @@ Some GDOs will have three terminals; others have four. For three-terminal opener
 
 On my GDO—a Craftsman from circa 1997 with part number 41A5021-3B on the rear panel—there are three terminals:
 
-![Craftsman garage door opener rear panel with terminal callouts](http://content.screencast.com/users/a.jensen/folders/Snagit/media/54dd5067-65c3-4b5c-b041-c9cd1bad3a31/2013-04-13_20-55-50.png)
+![Craftsman garage door opener rear panel with terminal callouts](http://content.screencast.com/users/a.jensen/folders/Snagit/media/fe473009-3cfd-4713-b908-7dd089cfb501/2013-04-13_20-55-50.png)
 
 To connect my GDO to the I/O Linc, I used a length of old (read: ugly) speaker wire that I had lying around. (I recommend using bell wire or one pair of wires from an RJ-45 cable as they will be a better fit for the I/O Linc terminals.)  One wire connects to the Remote/Opener Terminal (#1). The second wire connects to the common terminal (#2) in the center. The button on the wall will also be wired to these terminals.
 
