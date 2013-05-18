@@ -1,0 +1,48 @@
+---
+layout: post
+title: progfun 002
+---
+
+# progfun 002
+
+I just finished [progfun 002](https://class.coursera.org/progfun-2012-001), a course offered by Coursera that teaches the fundamentals of functional programming in Scala. I was left with a favorable impression of the course and wanted to share some postmortem thoughts.
+
+## Time Management
+
+This was my first online course. It was also my first post-gradschool course. I spend plenty of free time writing code, but finding a sustainable way to make time for difficult (even tedious) assignments is a different beast. There were plenty of evenings when I didn’t have enough energy to solve hard problems, to say nothing of solving them in an alien language that I was just beginning to understand. The deadlines are a good partial solution to this. You *can* turn things in late—life happens—but it will cost you. The scaffolding that’s provided in the problem sets is the other half of the solution; I’ll get to that.
+
+## Lectures
+
+Each week, a half dozen short (10-20 minute) lectures are posted that cover the material for that week’s assignment. (That’s backwards, of course; you’re taking the course to learn the material, not just to solve the assignments. But when you’re five weeks in, you’re thinking about the assignments.) The lectures are nicely parceled into small topics that can be watched during a coffee break or over lunch.
+
+The pace of the lectures is slow and steady. (I watched most of them at 1.25x. Beyond 1.5x, the audio becomes difficult to understand.) The videos are fairly easy to scan when you need to review a segment. I do wish that the course organizers would prepare a set of lecture notes that highlight the main points of each segment for later review. On more than one occasion, I found myself scanning through multiple videos in search of a specific slide. PDF versions of the slides (even without the instructor’s annotations) would be another useful option.
+
+Periodically, the lecture will pause and present you with an exercise. **These are probably worth your time.** Most of them, anyway. The exercises might not be an option if you’re watching a lecture during your coffee break, but they provide a helpful check for your understanding and are a good way to cement new concepts in your mental model of Scala.
+
+The lecture material can seem bogged down at times, especially when the instructor is discussing deep connections to mathematics, proofs, or topics from theoretical computation. If you’re a working professional whose aim is to develop a working level of fluency in Scala, such segments are probably safe to skip. For students of computer science or anyone with a bit of extra time, they are worthwhile. Martin Odersky, the course instructor, is a titan in the world of Scala, and he has a knack for distilling complex topics into useful morsels. Take advantage if you’re able.
+
+## Assignments
+
+Much like other well-known computer science courses (such as CS50X), this course unabashedly delivers some pain. The assignments are mostly excellent, though, and the time investment will leave you ready to build useful software.
+
+As I mentioned earlier, the assignments provide a lot of *scaffolding*—code and documentation that is incomplete but provides a rough path for you to follow. The scaffolding serves two purposes in a course like this: it provides a skeleton for the solution that you’re developing, and it enables you to solve real, revelant problems without the cognitive load of simultaneously designing *and* implementing a solution.
+
+The assignments also provide small fragments of finished code that can be used as-is. These are often fragments of code that are uninteresting, easy to screw up, or both. Mostly they’re irrelevant to the problem at hand, and it’s a better use of your time to focus on the stuff that matters. The course designers have clearly embraced this.
+
+## Discussion Boards
+
+One of the great benefits of an online course is the discussion that happens around the lectures and the assignments. Even greater is being able to search those discussions after they’ve happened. Coursera has good infrastructure for supporting rich conversations, and this course in particular has a wonderful group of staff TAs who are available (seemingly at all hours) to answer questions. It’s often tempting to give and receive too much advice on the discussion boards, but with a bit of self-discipline you should be able to glean just enough information to see the solution.
+
+## Automatic Grading
+
+The auto-grading machinery for this course is well done. Assignments can be submitted multiple times without penalty, and generally the grader will provide enough feedback that you can identify and resolve any problems with your code. On one occasion, though, I strongly wished that the test inputs (strings) were provided along with the grader’s output. The feedback can be cryptic. For most assignments, in my judgment, providing the test inputs would not give an undue advantage to anyone.
+
+## Time Investment
+
+The course description predicts that you’ll need 5-7 hours per week. I think that this is slightly misleading. You can expect roughly one hour to be consumed by lectures. The time spent on assignments, however, will vary significantly—especially if this is your first experience with functional programming. I finished one assignment in less than 30 minutes, but another took me more than 10 hours. The genuine feeling of enlightenment is worth the effort, but it will take some time. The later assignments are fairly complex, and you will need to find additional time for debugging. Learner beware!
+
+## Coda
+
+If you have any interest in functional programming, I hope that you take this course. It’s accessible to anyone with a good grasp of programming, and you’ll be hard pressed to find another course of equal calibre. For me, though, this is the real test: after working through the assignments, I feel prepared to learn the rest of its faculties and get my hands dirty with some real projects.
+
+There are efforts underway to make a follow-up course that will cover concurrency and other advanced topics.
