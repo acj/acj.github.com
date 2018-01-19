@@ -15,5 +15,3 @@ plugins:
 
 paginate: 3
 
-exclude:
-  - papers/
