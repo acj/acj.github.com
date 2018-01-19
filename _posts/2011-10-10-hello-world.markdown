@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Hello, World! (2011-10-10)
+title: Hello, World!
 ---
 
 # A brief introduction

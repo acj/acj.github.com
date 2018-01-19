@@ -1,13 +1,19 @@
-destination: ./_site
-auto:        true
-lsi:         false
-server_port: 4000
-markdown:    maruku
-permalink:   date
-maruku:
-  use_tex:    false
-  use_divs:   false
-  png_dir:    images/latex
-  png_url:    /images/latex
+title: Adam's Scribbles
+description: >-
+  Writing, code, and photos by Adam Jensen
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "https://ehseejay.com"
+twitter_username: acjensen
+github_username: acj
 
-theme: jekyll-theme-minimal
+# Build settings
+markdown: kramdown
+theme: minima
+plugins:
+  - jekyll-feed
+  - jekyll-paginate
+
+paginate: 3
+
+exclude:
+  - papers/

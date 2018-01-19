@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Using git to manage text documents (2012-1-22)
+title: Using git to manage text documents
 ---
 
 Anybody using git to manage text document revisions might benefit from this. I keep all of my research papers in git. I also collaborate on paper writing fairly often, and I may want to see the difference between two revisions. 

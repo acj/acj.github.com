@@ -3,8 +3,6 @@ layout: post
 title: progfun 002
 ---
 
-# progfun 002
-
 I just finished [progfun 002](https://class.coursera.org/progfun-2012-001), a course offered by Coursera that teaches the fundamentals of functional programming in Scala. I was left with a favorable impression of the course and wanted to share some postmortem thoughts.
 
 ## Time Management
