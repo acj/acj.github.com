@@ -11,7 +11,4 @@ markdown: kramdown
 theme: minima
 plugins:
   - jekyll-feed
-  - jekyll-paginate
-
-paginate: 3
 
