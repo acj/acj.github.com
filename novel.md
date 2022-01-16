@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Novels
+title: Novel
 permalink: /escape-velocity-book
 ---
 
