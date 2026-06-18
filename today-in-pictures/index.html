@@ -175,8 +175,10 @@
         var m = desc.match(/<img[^>]+src="([^"]+)"/);
         if (m) photo = m[1];
       }
-      // Extract caption text from description (strip HTML).
-      var caption = desc.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+      // Extract caption text from description: strip HTML tags, then decode any
+      // HTML entities. The description is escaped twice by FeedBuilder, so after
+      // the XML parser's single decode a layer of entities (e.g. "&#39;") remains.
+      var caption = decodeEntities(desc.replace(/<[^>]*>/g, " ")).replace(/\s+/g, " ").trim();
       // Remove the "Source: ..." trailer if present (it duplicates the source field).
       caption = caption.replace(/\s*Source:\s+.+$/, "").trim();
 
@@ -217,6 +219,15 @@
   function text(el, tag) {
     var child = el.getElementsByTagName(tag)[0];
     return child ? child.textContent.trim() : "";
+  }
+
+  function decodeEntities(s) {
+    // Decode HTML entities without loading resources or running script: a
+    // textarea treats its contents as text (RCDATA), so entities resolve but
+    // any stray markup stays inert.
+    var ta = document.createElement("textarea");
+    ta.innerHTML = s;
+    return ta.value;
   }
 
   function indexFromHash() {
