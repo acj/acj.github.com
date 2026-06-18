@@ -163,7 +163,31 @@
 
       if (photo) out.push({ title: cleanTitle(title), photo: photo, link: link, caption: caption, source: src });
     });
+    assignSlugs(out);
     return out;
+  }
+
+  function slugify(s) {
+    return s.toLowerCase()
+      .replace(/^https?:\/\//, "")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 80);
+  }
+
+  function assignSlugs(list) {
+    // Pin each item to a slug derived from its article link (falling back to title),
+    // so a reload returns to the same photo even if the feed reorders. Disambiguate
+    // any collisions with a numeric suffix to keep slugs unique.
+    var seen = {};
+    list.forEach(function (item, i) {
+      var base = slugify(item.link || item.title) || "photo";
+      var slug = base;
+      var n = 2;
+      while (seen.hasOwnProperty(slug)) slug = base + "-" + (n++);
+      seen[slug] = true;
+      item.slug = slug;
+    });
   }
 
   function cleanTitle(t) {
@@ -176,10 +200,27 @@
     return child ? child.textContent.trim() : "";
   }
 
+  function indexFromHash() {
+    // The hash holds the current item's slug; find its position in the feed.
+    var slug = decodeURIComponent(location.hash.replace(/^#/, ""));
+    if (!slug) return 0;
+    for (var i = 0; i < items.length; i++) {
+      if (items[i].slug === slug) return i;
+    }
+    return 0;
+  }
+
   function show(i) {
     if (i < 0 || i >= items.length) return;
     index = i;
     var item = items[i];
+
+    // Reflect the current photo in the URL so a reload restores it, even if the
+    // feed has since reordered. Keyed by slug rather than position.
+    var hash = "#" + item.slug;
+    if (location.hash !== hash) {
+      history.replaceState(null, "", hash);
+    }
     var photo = document.getElementById("photo");
 
     // Hide immediately so the old image never shows with the new caption.
@@ -223,7 +264,7 @@
       }
       document.getElementById("loading").style.display = "none";
       document.getElementById("viewer").style.display = "flex";
-      show(0);
+      show(indexFromHash());
     })
     .catch(function (e) {
       document.getElementById("loading").textContent = "Failed to load feed: " + e.message;
@@ -231,6 +272,11 @@
 
   document.getElementById("prev").addEventListener("click", function () { show(index - 1); });
   document.getElementById("next").addEventListener("click", function () { show(index + 1); });
+
+  // Honor manual URL edits (our own navigation uses replaceState, which doesn't fire this).
+  window.addEventListener("hashchange", function () {
+    if (items.length) show(indexFromHash());
+  });
 
   document.addEventListener("keydown", function (e) {
     if (e.key === "ArrowLeft")  show(index - 1);
