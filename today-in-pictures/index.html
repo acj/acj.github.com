@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Photo Feeds</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #111;
+    color: #ddd;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .loading { text-align: center; padding: 4rem 1rem; color: #888; font-size: 1.1rem; }
+
+  .viewer { flex: 1; display: flex; flex-direction: column; }
+
+  .photo-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 1rem 0;
+    min-height: 0;
+  }
+
+  .photo-wrap img {
+    max-width: 100%;
+    max-height: 75dvh;
+    object-fit: contain;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+  }
+
+  .photo-wrap img.loading { opacity: 0; }
+
+  .caption {
+    max-width: 52rem;
+    margin: 0 auto;
+    padding: 1.25rem 1.5rem 1rem;
+    line-height: 1.55;
+    font-size: 0.95rem;
+  }
+
+  .caption .title {
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: #eee;
+    margin-bottom: 0.35rem;
+  }
+
+  .caption .text { color: #bbb; }
+
+  .caption .source {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    color: #777;
+    font-style: italic;
+    text-decoration: none;
+  }
+
+  .caption .source:hover { color: #aaa; text-decoration: underline; }
+
+  .controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 0.75rem 1rem 1.25rem;
+    user-select: none;
+  }
+
+  .controls button {
+    background: none;
+    border: 1px solid #333;
+    color: #999;
+    padding: 0.4rem 1rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+  }
+
+  .controls button:hover { color: #ddd; border-color: #555; }
+  .controls button:disabled { opacity: 0.3; cursor: default; }
+
+  .counter { color: #555; font-size: 0.8rem; font-variant-numeric: tabular-nums; min-width: 6rem; text-align: center; }
+
+  @media (max-width: 600px) {
+    .caption { padding: 1rem; font-size: 0.9rem; }
+    .caption .title { font-size: 0.95rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="loading" id="loading">Loading feed&hellip;</div>
+
+<div class="viewer" id="viewer" style="display:none">
+  <div class="photo-wrap">
+    <a id="photo-link" href="#" target="_blank" rel="noopener">
+      <img id="photo" alt="">
+    </a>
+  </div>
+  <div class="caption">
+    <div class="title" id="title"></div>
+    <div class="text" id="text"></div>
+    <a class="source" id="source" href="#" target="_blank" rel="noopener"></a>
+  </div>
+  <div class="controls">
+    <button id="prev">&larr; Prev</button>
+    <span class="counter" id="counter"></span>
+    <button id="next">Next &rarr;</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  var items = [];
+  var index = 0;
+  var preloadCache = {};
+  var PREFETCH_AHEAD = 3;
+
+  function prefetch(i) {
+    for (var n = 1; n <= PREFETCH_AHEAD; n++) {
+      [i + n, i - n].forEach(function (j) {
+        if (j >= 0 && j < items.length && !preloadCache[j]) {
+          var img = new Image();
+          img.src = items[j].photo;
+          preloadCache[j] = img;
+        }
+      });
+    }
+  }
+
+  function parseFeed(xml) {
+    var entries = xml.querySelectorAll("item");
+    var out = [];
+    entries.forEach(function (el) {
+      var title = text(el, "title") || "";
+      var link  = text(el, "link") || "";
+      var desc  = text(el, "description") || "";
+      var src   = text(el, "source") || "";
+
+      // Extract photo URL from media:content or from <img> in description.
+      var media = el.getElementsByTagNameNS("http://search.yahoo.com/mrss/", "content");
+      var photo = media.length ? media[0].getAttribute("url") : "";
+      if (!photo) {
+        var m = desc.match(/<img[^>]+src="([^"]+)"/);
+        if (m) photo = m[1];
+      }
+      // Extract caption text from description (strip HTML).
+      var caption = desc.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+      // Remove the "Source: ..." trailer if present (it duplicates the source field).
+      caption = caption.replace(/\s*Source:\s+.+$/, "").trim();
+
+      if (photo) out.push({ title: cleanTitle(title), photo: photo, link: link, caption: caption, source: src });
+    });
+    return out;
+  }
+
+  function cleanTitle(t) {
+    // Strip the "[Source — Name] " prefix added by FeedBuilder.
+    return t.replace(/^\[[^\]]+\]\s*/, "");
+  }
+
+  function text(el, tag) {
+    var child = el.getElementsByTagName(tag)[0];
+    return child ? child.textContent.trim() : "";
+  }
+
+  function show(i) {
+    if (i < 0 || i >= items.length) return;
+    index = i;
+    var item = items[i];
+    var photo = document.getElementById("photo");
+
+    // Hide immediately so the old image never shows with the new caption.
+    photo.classList.add("loading");
+
+    var reveal = function () {
+      photo.classList.remove("loading");
+      photo.removeEventListener("load", reveal);
+    };
+
+    // If the src is already cached (same URL or prefetched & complete), reveal will
+    // fire synchronously from the load event or we can check .complete after setting src.
+    photo.addEventListener("load", reveal);
+    photo.src = item.photo;
+    photo.alt = item.title;
+
+    // If the browser already has it cached, load may have fired synchronously.
+    if (photo.complete) reveal();
+
+    document.getElementById("photo-link").href = item.link;
+    document.getElementById("title").textContent = item.title;
+    document.getElementById("text").textContent = item.caption;
+    var sourceEl = document.getElementById("source");
+    sourceEl.textContent = item.source;
+    sourceEl.href = item.link;
+    document.getElementById("counter").textContent = (i + 1) + " / " + items.length;
+    document.getElementById("prev").disabled = i === 0;
+    document.getElementById("next").disabled = i === items.length - 1;
+
+    prefetch(i);
+  }
+
+  fetch("feed.xml")
+    .then(function (r) { return r.text(); })
+    .then(function (t) {
+      var xml = new DOMParser().parseFromString(t, "application/xml");
+      items = parseFeed(xml);
+      if (!items.length) {
+        document.getElementById("loading").textContent = "No items in feed.";
+        return;
+      }
+      document.getElementById("loading").style.display = "none";
+      document.getElementById("viewer").style.display = "flex";
+      show(0);
+    })
+    .catch(function (e) {
+      document.getElementById("loading").textContent = "Failed to load feed: " + e.message;
+    });
+
+  document.getElementById("prev").addEventListener("click", function () { show(index - 1); });
+  document.getElementById("next").addEventListener("click", function () { show(index + 1); });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "ArrowLeft")  show(index - 1);
+    if (e.key === "ArrowRight") show(index + 1);
+  });
+
+  // Swipe support.
+  var touchX = null;
+  document.addEventListener("touchstart", function (e) { touchX = e.touches[0].clientX; });
+  document.addEventListener("touchend", function (e) {
+    if (touchX === null) return;
+    var dx = e.changedTouches[0].clientX - touchX;
+    touchX = null;
+    if (Math.abs(dx) > 50) show(index + (dx < 0 ? 1 : -1));
+  });
+})();
+</script>
+</body>
+</html>
