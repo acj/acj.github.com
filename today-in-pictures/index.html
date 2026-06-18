@@ -134,6 +134,7 @@
     <a class="source" id="source" href="#" target="_blank" rel="noopener"></a>
   </div>
   <div class="controls">
+    <button id="first">&laquo; First</button>
     <button id="prev">&larr; Prev</button>
     <span class="counter" id="counter"></span>
     <button id="next">Next &rarr;</button>
@@ -277,6 +278,7 @@
     sourceEl.textContent = item.source;
     sourceEl.href = item.link;
     document.getElementById("counter").textContent = (i + 1) + " / " + items.length;
+    document.getElementById("first").disabled = i === 0;
     document.getElementById("prev").disabled = i === 0;
     document.getElementById("next").disabled = i === items.length - 1;
 
@@ -300,6 +302,7 @@
       document.getElementById("loading").textContent = "Failed to load feed: " + e.message;
     });
 
+  document.getElementById("first").addEventListener("click", function () { show(0); });
   document.getElementById("prev").addEventListener("click", function () { show(index - 1); });
   document.getElementById("next").addEventListener("click", function () { show(index + 1); });
 
