@@ -241,16 +241,25 @@
     return 0;
   }
 
-  function show(i) {
+  function show(i, nav) {
     if (i < 0 || i >= items.length) return;
     index = i;
     var item = items[i];
 
     // Reflect the current photo in the URL so a reload restores it, even if the
-    // feed has since reordered. Keyed by slug rather than position.
+    // feed has since reordered. Keyed by slug rather than position. User
+    // navigation pushes a history entry so the browser's Back button steps to
+    // the previous photo; the initial load replaces instead, so Back leaves the
+    // page rather than getting stuck on it.
     var hash = "#" + item.slug;
-    if (location.hash !== hash) {
-      history.replaceState(null, "", hash);
+    // nav "none" means we're reacting to a URL the browser already navigated to
+    // (Back/Forward or a manual edit), so leave history untouched.
+    if (location.hash !== hash && nav !== "none") {
+      if (nav === "replace") {
+        history.replaceState(null, "", hash);
+      } else {
+        history.pushState(null, "", hash);
+      }
     }
     var photo = document.getElementById("photo");
 
@@ -296,7 +305,7 @@
       }
       document.getElementById("loading").style.display = "none";
       document.getElementById("viewer").style.display = "flex";
-      show(indexFromHash());
+      show(indexFromHash(), "replace");
     })
     .catch(function (e) {
       document.getElementById("loading").textContent = "Failed to load feed: " + e.message;
@@ -313,9 +322,11 @@
     photoWrap.classList.toggle("zoomed");
   });
 
-  // Honor manual URL edits (our own navigation uses replaceState, which doesn't fire this).
+  // Sync the view to the URL fragment for Back/Forward navigation and manual URL
+  // edits. The browser updates location.hash before firing this, so show()'s
+  // guard skips touching history and no duplicate entry is created.
   window.addEventListener("hashchange", function () {
-    if (items.length) show(indexFromHash());
+    if (items.length) show(indexFromHash(), "none");
   });
 
   document.addEventListener("keydown", function (e) {
