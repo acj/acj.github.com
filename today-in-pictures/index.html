@@ -112,6 +112,8 @@
 
   .counter { color: #555; font-size: 0.8rem; font-variant-numeric: tabular-nums; min-width: 6rem; text-align: center; }
 
+  .last-updated { text-align: center; color: #555; font-size: 0.75rem; padding: 0 1rem 1.25rem; }
+
   @media (max-width: 600px) {
     .caption { padding: 1rem; font-size: 0.9rem; }
     .caption .title { font-size: 0.95rem; }
@@ -139,6 +141,7 @@
     <span class="counter" id="counter"></span>
     <button id="next">Next &rarr;</button>
   </div>
+  <div class="last-updated" id="last-updated"></div>
 </div>
 
 <script>
@@ -210,6 +213,18 @@
       seen[slug] = true;
       item.slug = slug;
     });
+  }
+
+  function showLastUpdated(xml) {
+    // The channel's <lastBuildDate> records when the feed was regenerated.
+    var node = xml.querySelector("channel > lastBuildDate");
+    var raw = node ? node.textContent.trim() : "";
+    var date = raw ? new Date(raw) : null;
+    if (!date || isNaN(date.getTime())) return;
+    var formatted = date.toLocaleDateString(undefined, {
+      year: "numeric", month: "long", day: "numeric"
+    });
+    document.getElementById("last-updated").textContent = "Last updated on " + formatted;
   }
 
   function cleanTitle(t) {
@@ -305,6 +320,7 @@
       }
       document.getElementById("loading").style.display = "none";
       document.getElementById("viewer").style.display = "flex";
+      showLastUpdated(xml);
       show(indexFromHash(), "replace");
     })
     .catch(function (e) {
